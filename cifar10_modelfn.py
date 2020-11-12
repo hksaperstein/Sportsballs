@@ -71,7 +71,7 @@ def train(save_best=True):
     model.summary()
     callbacks_list = []
     if save_best:
-        filepath = "best_cifar_cnn_weights.hdf5"
+        filepath = "best_cifar_cnn_weights82.hdf5"
         # filepath = "weights-improvement-{epoch:02d}-{val_accuracy:.2f}.hdf5"
         checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
         callbacks_list.append(checkpoint)
@@ -86,7 +86,7 @@ def load_weights():
     # yaml_file.close()
     # loaded_model = model_from_yaml(loaded_model_yaml)
     # load weights into new model
-    loaded_model = load_model("best_cifar_cnn_weights.hdf5")
+    loaded_model = load_model("best_cifar_cnn_weights82.hdf5")
     print("Loaded model from disk")
     loaded_model.compile(optimizer='adam',
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
@@ -102,3 +102,5 @@ def eval(model):
 
     score = model.evaluate(test_images, test_labels, verbose=1)
     print("%s: %.2f%%" % (model.metrics_names[1], score[1] * 100))
+
+# train()
