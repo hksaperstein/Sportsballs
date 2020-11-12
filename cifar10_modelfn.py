@@ -71,7 +71,7 @@ def train(save_best=True):
     model.summary()
     callbacks_list = []
     if save_best:
-        filepath = "best_cifar_cnn_weights_no_pooling.hdf5"
+        filepath = "best_cifar_cnn_weights.hdf5"
         # filepath = "weights-improvement-{epoch:02d}-{val_accuracy:.2f}.hdf5"
         checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
         callbacks_list.append(checkpoint)

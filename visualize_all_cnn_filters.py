@@ -20,7 +20,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 import cifar10_modelfn as cf
-
+import gpu_mem_fix
 """
 ## Set up the gradient ascent process
 
