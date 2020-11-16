@@ -67,7 +67,7 @@ def initialize_image():
     return img
 
 def visualize_filter(filter_index):
-    iterations = 1000
+    iterations = 500
     learning_rate = 10.0
     img = initialize_image()
     for iteration in range(iterations):

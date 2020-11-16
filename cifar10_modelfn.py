@@ -86,7 +86,7 @@ def load_weights():
     # yaml_file.close()
     # loaded_model = model_from_yaml(loaded_model_yaml)
     # load weights into new model
-    loaded_model = load_model("best_cifar_cnn_weights82.hdf5")
+    loaded_model = load_model("best_cifar_cnn_weights.hdf5")
     print("Loaded model from disk")
     loaded_model.compile(optimizer='adam',
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
