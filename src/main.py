@@ -2,6 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.constraints import max_norm
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, Dropout
+from tensorflow.keras.callbacks import ModelCheckpoint
 import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
@@ -73,9 +74,22 @@ model.add(Dense(10))
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
+
+## Save weights
+model.summary()
+callbacks_list = []
+filepath = "sportsballs_classification_weights.hdf5"
+# filepath = "weights-improvement-{epoch:02d}-{val_accuracy:.2f}.hdf5"
+checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
+callbacks_list.append(checkpoint)
+
 ## Train/Validate Model
 history = model.fit(train_images, train_labels, batch_size=64, epochs=100,
-                        validation_data=(test_images, test_labels))
+                        validation_data=(test_images, test_labels), callbacks=callbacks_list)
+
+## Evaluate Model
+score = model.evaluate(test_images, test_labels, verbose=1)
+print("%s: %.2f%%" % (model.metrics_names[1], score[1] * 100))
 
 
 # plot training session
