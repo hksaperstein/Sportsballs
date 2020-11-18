@@ -11,13 +11,13 @@ from sklearn import model_selection
 ## Load Data
 
 #todo use sys dir path stuff
-data_path = "/home/hksaperstein/WPI/rbe549/Project/Sportsballs/data/"
+data_path = "../data/"
 sportballs = ["soccerballs/", "baseballs/"]
 
 image_paths = []
 num_images = 0
 for i, sportball in enumerate(sportballs):
-    image_files = os.listdir("/home/hksaperstein/WPI/rbe549/Project/Sportsballs/data/" + sportball)
+    image_files = os.listdir(data_path + sportball)
     if 'annotations' in image_files:
         image_files.remove('annotations')
     num_images += len(image_files)
