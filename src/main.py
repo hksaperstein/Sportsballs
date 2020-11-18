@@ -40,36 +40,39 @@ for i, image_path in enumerate(image_paths):
     current_num_images += len(image_path)
 #split data
 train_images, test_images, train_labels, test_labels = model_selection.train_test_split(images, labels, test_size=.2)
+train_images, val_images, train_labels, val_labels = model_selection.train_test_split(train_images, train_labels, test_size=.1)
+
 
 ## Create Model
 
 model = Sequential()
 model.add(Conv2D(32, kernel_size=3, padding='same', activation='relu', input_shape=(100, 100, 3), kernel_constraint=max_norm(4)))
 model.add(Dropout(0.1))
-# model.add(MaxPooling2D((2, 2)))
+model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(32, kernel_size=3, padding='same', activation='relu'))
 model.add(Dropout(0.1))
 model.add(Conv2D(32, kernel_size=3, padding='same', activation='relu'))
 model.add(Dropout(0.1))
-# model.add(MaxPooling2D((2, 2)))
+model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(32, kernel_size=3, padding='same', activation='relu'))
 model.add(Dropout(0.1))
-# model.add(MaxPooling2D((2, 2)))
+model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(10, kernel_size=3, padding='same', activation='relu'))
 model.add(Dropout(0.2))
 model.add(MaxPooling2D((2, 2)))
-# model.add(Conv2D(64, kernel_size=3, padding='same', activation='relu'))
-# model.add(Dropout(0.2))
-# model.add(MaxPooling2D((2, 2)))
-# model.add(Conv2D(64, kernel_size=5, padding='same', activation='relu'))
-# model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(64, kernel_size=3, padding='same', activation='relu'))
+model.add(Dropout(0.2))
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(64, kernel_size=5, padding='same', activation='relu'))
+model.add(MaxPooling2D((2, 2)))
 model.add(Flatten())
 model.add(Dropout(0.4))
-# model.add(Dense(2048, activation='relu', kernel_constraint=maxnorm(3)))
-# model.add(Dropout(0.5))
-# model.add(Dense(2048, activation='relu', kernel_constraint=maxnorm(3)))
-# model.add(Dropout(0.5))
+model.add(Dense(2048, activation='relu', kernel_constraint=max_norm(3)))
+model.add(Dropout(0.5))
+model.add(Dense(2048, activation='relu', kernel_constraint=max_norm(3)))
+model.add(Dropout(0.5))
 model.add(Dense(10))
+
 # Compile model
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
@@ -78,14 +81,14 @@ model.compile(optimizer='adam',
 ## Save weights
 model.summary()
 callbacks_list = []
-filepath = "sportsballs_classification_weights.hdf5"
+filepath = "sportsballs_classification_weights2.hdf5"
 # filepath = "weights-improvement-{epoch:02d}-{val_accuracy:.2f}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
 callbacks_list.append(checkpoint)
 
 ## Train/Validate Model
 history = model.fit(train_images, train_labels, batch_size=64, epochs=100,
-                        validation_data=(test_images, test_labels), callbacks=callbacks_list)
+                        validation_data=(val_images, val_labels), callbacks=callbacks_list)
 
 ## Evaluate Model
 score = model.evaluate(test_images, test_labels, verbose=1)
