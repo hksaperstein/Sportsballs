@@ -8,6 +8,9 @@ import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
 import os
+
+from tensorflow.python.keras.utils.np_utils import to_categorical
+
 import plot_history as ph
 from sklearn import model_selection
 import gpu_mem_fix
@@ -42,35 +45,36 @@ for i, name in enumerate(names):
 
 # Normalize pixel values to be between 0 and 1
 images = np.asarray(images)
-labels = np.asarray(labels)
+labels = to_categorical(np.asarray(labels))
 images = images / 255.0
+num_classes = len(labels[0])
 
 train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size=0.33)
 ## Create Model
 
 model = Sequential()
-model.add(Conv2D(16, kernel_size=3, padding='same', activation='relu',
+model.add(Conv2D(8, kernel_size=3, padding='same', activation='relu',
                  input_shape=(input_res[0], input_res[1], 3), kernel_constraint=max_norm(4)))
 model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(16, kernel_size=3, padding='same', activation='relu'))
+model.add(MaxPooling2D((2, 2)))
+model.add(Dropout(0.5))
 model.add(Conv2D(32, kernel_size=3, padding='same', activation='relu'))
 model.add(MaxPooling2D((2, 2)))
 model.add(Dropout(0.5))
-model.add(Conv2D(64, kernel_size=3, padding='same', activation='relu'))
-model.add(MaxPooling2D((2, 2)))
-model.add(Dropout(0.5))
-model.add(Conv2D(128, kernel_size=5, padding='same', activation='relu'))
+model.add(Conv2D(64, kernel_size=5, padding='same', activation='relu'))
 model.add(MaxPooling2D((2, 2)))
 model.add(Flatten())
 model.add(Dropout(0.4))
-model.add(Dense(2048, activation='relu', kernel_constraint=max_norm(3)))
+model.add(Dense(512, activation='relu', kernel_constraint=max_norm(3)))
 model.add(Dropout(0.5))
-model.add(Dense(2048, activation='relu', kernel_constraint=max_norm(3)))
+model.add(Dense(512, activation='relu', kernel_constraint=max_norm(3)))
 model.add(Dropout(0.5))
-model.add(Dense(10))
+model.add(Dense(num_classes, activation='sigmoid'))
 
 # Compile model
 model.compile(optimizer='adam',
-              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+              loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
 ## Save weights
