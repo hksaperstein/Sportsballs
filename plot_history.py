@@ -22,5 +22,5 @@ def plot_acc_loss(history, title):
     plt.xlabel('epoch')
     plt.legend(['train', 'test'], loc='upper left')
     axes = plt.gca()
-    axes.set_ylim([0, 1])
+    # axes.set_ylim([0, 1])
     plt.show()
