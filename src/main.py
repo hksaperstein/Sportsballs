@@ -1,19 +1,15 @@
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.constraints import max_norm
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, Dropout
+from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
 from tensorflow.keras.callbacks import ModelCheckpoint
 import numpy as np
 import cv2 as cv
-import matplotlib.pyplot as plt
 import os
 
 from tensorflow.python.keras.utils.np_utils import to_categorical
 
-import plot_history as ph
-from sklearn import model_selection
-import gpu_mem_fix
+from src import plot_history as ph
 
 seed = 7
 np.random.seed(seed)
