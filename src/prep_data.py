@@ -40,7 +40,7 @@ def load_data3c():
     images = images / 255.0
     num_classes = len(labels[0])
 
-    train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size=0.33)
+    train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size=0.2)
     return train_images, test_images, train_labels, test_labels, input_res, num_classes, label_dict
 
 # Loads all folders from /data/
@@ -79,5 +79,5 @@ def load_data():
     images = images / 255.0
     num_classes = len(labels[0])
 
-    train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size=0.33)
+    train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size=0.2)
     return train_images, test_images, train_labels, test_labels, input_res, num_classes, label_dict

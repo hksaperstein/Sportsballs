@@ -43,12 +43,12 @@ def train(train_images, test_images, train_labels, test_labels, input_res, num_c
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir="./logs")
     callbacks_list.append(tensorboard_callback)
     ## Train/Validate Model
-    history = model.fit(train_images, train_labels, batch_size=64, epochs=150,
+    history = model.fit(train_images, train_labels, batch_size=64, epochs=75,
                             validation_data=(test_images, test_labels), callbacks=callbacks_list)
 
     # plot training session
-    ph.plot_acc_loss(history, "Initial Model")
-    return model
+    ph.plot_acc_loss(history, "Unregularized 7-Class Model")
+    return model, history
 
 def load_weights():
     # load weights into new model
@@ -61,7 +61,7 @@ def load_weights():
 
 ## Testing
 try:
-    model = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
+    model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
 except NameError:
     train_images, test_images, train_labels, test_labels, input_res, num_classes, dictionary = pd.load_data()
-    model = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
+    model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)

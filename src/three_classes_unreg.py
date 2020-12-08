@@ -3,6 +3,9 @@ import tensorflow as tf
 from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from tensorflow.python.keras.models import Sequential, load_model
 from src import plot_history as ph
+from src import prep_data as pd
+from src import gpu_mem_fix
+
 
 def train(train_images, test_images, train_labels, test_labels, input_res, num_classes):
     model = Sequential()
@@ -33,11 +36,11 @@ def train(train_images, test_images, train_labels, test_labels, input_res, num_c
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir="./logs")
     callbacks_list.append(tensorboard_callback)
     ## Train/Validate Model
-    history = model.fit(train_images, train_labels, batch_size=64, epochs=150,
+    history = model.fit(train_images, train_labels, batch_size=64, epochs=50,
                         validation_data=(test_images, test_labels), callbacks=callbacks_list)
     # plot training session
-    ph.plot_acc_loss(history, "Regularized Model")
-    return model
+    ph.plot_acc_loss(history, "Unregularized 3-Class Model")
+    return model, history
 
 def load_weights():
     # load weights into new model
@@ -49,8 +52,8 @@ def load_weights():
     return loaded_model
 
 ## Testing
-# try:
-#     model = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
-# except NameError:
-#     train_images, test_images, train_labels, test_labels, input_res, num_classes = pd.load_data3c()
-#     model = train(train_images, test_images, train_labels, test_labels, input_res, num_classes, label_dict)
+try:
+    model, history = train(train_images3, test_images3, train_labels3, test_labels3, input_res, 3)
+except NameError:
+    train_images3, test_images3, train_labels3, test_labels3, input_res, num_classes, label_dict = pd.load_data3c()
+    model, history = train(train_images3, test_images3, train_labels3, test_labels3, input_res, 3)

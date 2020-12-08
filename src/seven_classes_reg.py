@@ -46,11 +46,11 @@ def train(train_images, test_images, train_labels, test_labels, input_res, num_c
     callbacks_list.append(tensorboard_callback)
 
     ## Train/Validate Model
-    history = model.fit(train_images, train_labels, batch_size=64, epochs=150,
+    history = model.fit(train_images, train_labels, batch_size=64, epochs=75,
                             validation_data=(test_images, test_labels), callbacks=callbacks_list)
 
     # plot training session
-    ph.plot_acc_loss(history, "Regularized Model")
+    ph.plot_acc_loss(history, "Regularized 7-Class Model")
     return model
 
 def load_weights():
@@ -60,12 +60,11 @@ def load_weights():
     loaded_model.compile(optimizer='adam',
                   loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
                   metrics=['accuracy'])
-    return loaded_model
+    return model, history
 
-# Testing
+## Testing
 try:
-    model = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
+    model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
 except NameError:
-    train_images, test_images, train_labels, test_labels, input_res, num_classes = pd.load_data()
-    model = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
-
+    train_images, test_images, train_labels, test_labels, input_res, num_classes, dictionary = pd.load_data()
+    model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
