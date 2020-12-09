@@ -55,16 +55,16 @@ def train(train_images, test_images, train_labels, test_labels, input_res, num_c
 
 def load_weights():
     # load weights into new model
-    loaded_model = load_model("sportsballs_7c_reg.hdf5")
+    loaded_model = load_model("sportsballs_7c_reg68718.hdf5")
     print("Loaded model from disk")
     loaded_model.compile(optimizer='adam',
                   loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
                   metrics=['accuracy'])
-    return model, history
+    return loaded_model
 
 ## Testing
-try:
-    model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
-except NameError:
-    train_images, test_images, train_labels, test_labels, input_res, num_classes, dictionary = pd.load_data()
-    model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
+# try:
+#     model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
+# except NameError:
+#     train_images, test_images, train_labels, test_labels, input_res, num_classes, dictionary = pd.load_data()
+#     model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)

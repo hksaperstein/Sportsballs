@@ -60,8 +60,8 @@ def load_weights():
     return loaded_model
 
 ## Testing
-try:
-    model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
-except NameError:
-    train_images, test_images, train_labels, test_labels, input_res, num_classes, dictionary = pd.load_data()
-    model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
+# try:
+#     model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
+# except NameError:
+#     train_images, test_images, train_labels, test_labels, input_res, num_classes, dictionary = pd.load_data()
+#     model, history = train(train_images, test_images, train_labels, test_labels, input_res, num_classes)
