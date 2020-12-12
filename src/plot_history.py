@@ -1,4 +1,4 @@
-# Adam Santos, BS Robotics Engineering
+# Adam Santos
 # 10/22/20
 # Plots loss and accuracy for a given model's history
 ## history = model.fit(X, Y)

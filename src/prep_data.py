@@ -4,7 +4,15 @@ import cv2 as cv
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.utils.np_utils import to_categorical
 
-# Loads only the first three classes from /data/
+''' 
+Loads data from /data/ based on folder structure. 
+Resizes images to 128x128
+One-hot encodes labels
+Performs train_test_split and returns all data and a dictionary for classes
+load_data3c only loads three classes
+'''
+
+# Loads only the first three classes from /data/, each directory is its own class
 def load_data3c():
     seed = 7
     np.random.seed(seed)
@@ -43,7 +51,7 @@ def load_data3c():
     train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size=0.2)
     return train_images, test_images, train_labels, test_labels, input_res, num_classes, label_dict
 
-# Loads all folders from /data/
+# Loads all folders from /data/, each directory is its own class
 def load_data():
     seed = 7
     np.random.seed(seed)

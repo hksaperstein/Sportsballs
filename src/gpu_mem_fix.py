@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat Oct 17 22:06:36 2020
-fixes stupid tensorflow-gpu memory allocation on my machine
+fixes tensorflow-gpu memory allocation crashes
+configures GPU to use memory as its needed instead of pre-allocating
 updated for Tensorflow 2
 @author: Adam Santos
 """

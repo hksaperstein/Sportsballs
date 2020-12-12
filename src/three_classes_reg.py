@@ -5,9 +5,9 @@ from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense,
 from tensorflow.python.keras.models import Sequential, load_model
 from src import plot_history as ph
 from src import prep_data as pd
-from src import gpu_mem_fix
 
 def train(train_images, test_images, train_labels, test_labels, input_res, num_classes):
+    from src import gpu_mem_fix
     model = Sequential()
     model.add(Conv2D(16, kernel_size=3, padding='same', activation='relu',
                     input_shape=(input_res[0], input_res[1], 3), kernel_constraint=max_norm(4)))
@@ -38,6 +38,7 @@ def train(train_images, test_images, train_labels, test_labels, input_res, num_c
 
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir="./logs")
     callbacks_list.append(tensorboard_callback)
+
     ## Train/Validate Model
     history = model.fit(train_images, train_labels, batch_size=64, epochs=50,
                         validation_data=(test_images, test_labels), callbacks=callbacks_list)

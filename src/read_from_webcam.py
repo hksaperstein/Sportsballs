@@ -1,7 +1,8 @@
 import cv2
-
-# Import one model at a time for testing:
-
+'''
+Opens a webcam feed and saves a file when space is pressed.
+Import one model at a time for testing:
+'''
 # import src.three_classes_unreg as model
 # import src.three_classes_reg as model
 # import src.seven_classes_unreg as model
@@ -9,9 +10,7 @@ import src.seven_classes_reg as model
 
 
 cam = cv2.VideoCapture(0)
-
-cv2.namedWindow("test")
-
+cv2.namedWindow("Live feed")
 img_counter = 0
 
 while True:
@@ -34,5 +33,4 @@ while True:
         img_counter += 1
 
 cam.release()
-
 cv2.destroyAllWindows()

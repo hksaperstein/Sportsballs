@@ -4,16 +4,13 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, Dropout
 from tensorflow.keras.callbacks import ModelCheckpoint
-import numpy as np
-import cv2 as cv
-import os
 from tensorflow.python.keras.models import load_model
-from tensorflow.python.keras.utils.np_utils import to_categorical
 from src import plot_history as ph
 from src import prep_data as pd
 
 ## Create Model
 def train(train_images, test_images, train_labels, test_labels, input_res, num_classes):
+    from src import gpu_mem_fix
     model = Sequential()
     model.add(Conv2D(16, kernel_size=3, activation='relu',
                      input_shape=(input_res[0], input_res[1], 3)))
@@ -22,11 +19,9 @@ def train(train_images, test_images, train_labels, test_labels, input_res, num_c
     model.add(MaxPooling2D((2, 2)))
     model.add(Conv2D(32, kernel_size=3, activation='relu', kernel_constraint=max_norm(3)))
     model.add(MaxPooling2D((2, 2)))
-    # model.add(Dropout(0.2))
     model.add(Conv2D(128, kernel_size=5, activation='relu', kernel_constraint=max_norm(3)))
     model.add(MaxPooling2D((2, 2)))
     model.add(Flatten())
-    # model.add(Dropout(0.4))
     model.add(Dense(256, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(256, activation='relu'))
@@ -37,6 +32,7 @@ def train(train_images, test_images, train_labels, test_labels, input_res, num_c
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
                   metrics=['accuracy'])
+
     ## Save weights and use tensorboard
     callbacks_list = []
     filepath = "sportsballs_7c_reg.hdf5"

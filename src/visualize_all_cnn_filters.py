@@ -20,6 +20,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 import src.seven_classes_reg as model
+import src.three_classes_unreg as model
 
 """
 ## Set up the gradient ascent process
